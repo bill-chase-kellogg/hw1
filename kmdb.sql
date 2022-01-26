@@ -71,7 +71,7 @@ DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS directors;
 DROP TABLE IF EXISTS characters;
 DROP TABLE IF EXISTS actors;
-DROP TABLE IF EXISTS movie_cast
+DROP TABLE IF EXISTS movie_cast;
 
 
 -- Create new tables, according to your domain model
@@ -116,7 +116,7 @@ VALUES (1, "Batman Begins", "2005", "PG-13",1),
 ;
 
 INSERT INTO directors (id, full_name)
-VALUES ("Christopher Nolan")
+VALUES (1, "Christopher Nolan")
 ;
 
 INSERT INTO characters (id, full_name)
@@ -168,8 +168,11 @@ VALUES (1,1,1),
 .print "======"
 .print ""
 
+.width 25 10 10 25 25
+
 -- The SQL statement for the movies output
-SELECT title, year_released,mpaa_rating,directors.name
+
+SELECT title, year_released, mpaa_rating, directors.full_name
 FROM movies
 INNER JOIN directors ON movies.director_id = directors.id
 ;
@@ -180,6 +183,7 @@ INNER JOIN directors ON movies.director_id = directors.id
 .print "========"
 .print ""
 
+.width 25 25 25 25 25
 
 -- The SQL statement for the cast output
 SELECT movies.title, actors.full_name, characters.full_name
@@ -189,4 +193,4 @@ INNER JOIN actors on movie_cast.actor_id = actors.id
 INNER JOIN characters on movie_cast.character_id = characters.id
 GROUP BY movies.title
 ORDER BY movies.title DESC
---;
+;
