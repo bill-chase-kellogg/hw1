@@ -68,8 +68,10 @@
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS directors;
 DROP TABLE IF EXISTS characters;
 DROP TABLE IF EXISTS actors;
+DROP TABLE IF EXISTS movie_cast
 
 
 -- Create new tables, according to your domain model
@@ -87,10 +89,10 @@ CREATE TABLE directors (
   full_name TEXT
   );
 
-  CREATE TABLE characters (
+CREATE TABLE characters (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  full_name TEXT  
-   );
+  full_name TEXT
+  );  
 
 CREATE TABLE actors (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -107,41 +109,41 @@ CREATE TABLE movie_cast (
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 
-INSERT INTO movies (title, year_released, mpaa_rating, director_id)
-VALUES ("Batman Begins", "2005", "PG-13",1),
-("The Dark Knight", "2008", "PG-13",1),
-("The Dark Knight Rises", "2012", "PG-13",1)
+INSERT INTO movies (id, title, year_released, mpaa_rating, director_id)
+VALUES (1, "Batman Begins", "2005", "PG-13",1),
+(2, "The Dark Knight", "2008", "PG-13",1),
+(3, "The Dark Knight Rises", "2012", "PG-13",1)
 ;
 
-INSERT INTO directors (full_name)
+INSERT INTO directors (id, full_name)
 VALUES ("Christopher Nolan")
 ;
 
-INSERT INTO characters (full_name)
-VALUES ("Bruce Wayne"),
-("Alfred"),
-("Ra's Al Ghul"),
-("Rachel Dawes"),
-("Commissioner Gordon"),
-("Joker"),
-("Harvey Dent"),
-("Bane"),
-("John Blake"),
-("Selina Kyle")
+INSERT INTO characters (id, full_name)
+VALUES (1, "Bruce Wayne"),
+(2, "Alfred"),
+(3, "Ra's Al Ghul"),
+(4, "Rachel Dawes"),
+(5, "Commissioner Gordon"),
+(6, "Joker"),
+(7, "Harvey Dent"),
+(8, "Bane"),
+(9, "John Blake"),
+(10, "Selina Kyle")
 ;
 
-INSERT INTO actors (full_name)
-VALUES ("Christian Bale"),
-("Michael Caine"),
-("Liam Neeson"),
-("Katie Holmes"),
-("Gary Oldman"),
-("Heath Ledger"),
-("Aaron Eckhart"),
-("Maggie Gyllenhaal"),
-("Tom Hardy"),
-("Joseph Gordon-Levitt"),
-("Anne Hathaway")
+INSERT INTO actors (id, full_name)
+VALUES (1, "Christian Bale"),
+(2, "Michael Caine"),
+(3, "Liam Neeson"),
+(4, "Katie Holmes"),
+(5, "Gary Oldman"),
+(6, "Heath Ledger"),
+(7, "Aaron Eckhart"),
+(8, "Maggie Gyllenhaal"),
+(9, "Tom Hardy"),
+(10, "Joseph Gordon-Levitt"),
+(11, "Anne Hathaway")
 ;
 
 INSERT INTO movie_cast (movie_id,character_id, actor_id)
@@ -150,15 +152,15 @@ VALUES (1,1,1),
 (1,3,3),
 (1,4,4),
 (1,5,5),
-(2,1,6),
-(2,6,7),
-(2,7,8),
-(2,4,9),
-(3,1,10),
-(3,2,11),
-(3,8,12),
-(3,9,13),
-(3,10,14)
+(2,1,1),
+(2,6,6),
+(2,7,7),
+(2,4,4),
+(3,1,1),
+(3,2,2),
+(3,8,8),
+(3,9,9),
+(3,10,10)
 ;
 
 -- Prints a header for the movies output
@@ -182,8 +184,9 @@ INNER JOIN directors ON movies.director_id = directors.id
 -- The SQL statement for the cast output
 SELECT movies.title, actors.full_name, characters.full_name
 FROM movies
-INNER JOIN movie_cast on movie_cast.movie_id = movie.id
+INNER JOIN movie_cast on movie_cast.movie_id = movies.id
 INNER JOIN actors on movie_cast.actor_id = actors.id
+INNER JOIN characters on movie_cast.character_id = characters.id
 GROUP BY movies.title
 ORDER BY movies.title DESC
 --;
