@@ -155,12 +155,13 @@ VALUES (1,1,1),
 (2,1,1),
 (2,6,6),
 (2,7,7),
-(2,4,4),
+(2,2,2),
+(2,4,8),
 (3,1,1),
-(3,2,2),
-(3,8,8),
-(3,9,9),
-(3,10,10)
+(3,5,5),
+(3,8,9),
+(3,9,10),
+(3,10,11)
 ;
 
 -- Prints a header for the movies output
@@ -187,10 +188,8 @@ INNER JOIN directors ON movies.director_id = directors.id
 
 -- The SQL statement for the cast output
 SELECT movies.title, actors.full_name, characters.full_name
-FROM movies
-INNER JOIN movie_cast on movie_cast.movie_id = movies.id
+FROM movie_cast
+INNER JOIN movies on movie_cast.movie_id = movies.id
 INNER JOIN actors on movie_cast.actor_id = actors.id
 INNER JOIN characters on movie_cast.character_id = characters.id
-GROUP BY movies.title
-ORDER BY movies.title DESC
 ;
